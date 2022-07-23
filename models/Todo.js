@@ -13,6 +13,10 @@ const Todo = sequelize.define('todos', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   success: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

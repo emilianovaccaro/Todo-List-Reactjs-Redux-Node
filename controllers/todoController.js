@@ -7,7 +7,7 @@ const getTodos = async ( req, res ) => {
   const user = req.user;
   try {
     const todos = await Todo.findAll({
-      attributes: ["id", "title", "description", "amount", "movement", "userId" ],
+      attributes: ["id", "title", "description", "userId", "success" ],
       where: { userId: user.id },
     });
     res.json(todos);
@@ -23,10 +23,11 @@ const getTodos = async ( req, res ) => {
 const createTodo = async ( req, res ) => {
   
   try{
-    const { title, success, userId } = req.body;
+    const { title, success, userId, description } = req.body;
     const newTodo = await Todo.create({
       title,
       success,
+      description,
       userId
     });
     
@@ -67,29 +68,30 @@ const deleteTodo = async ( req, res ) => {
   }
 }
 
-/* const updateTodo = async ( req, res ) => {
+const updateTodo = async ( req, res ) => {
     const { id } = req.params;
 
-    Todo.findOne({ where : { id: id } } );
   try{
-    const { title, description, amount, userId } = req.body;
-    const newTodo = await Todo.({
-      title,
-      description,
-      amount,
-      userId
+    const todo = await Todo.findOne({
+      attributes: ["title", "userId", "description", "success", "id"],
+      where: { id },
     });
+
+    todo.set(req.body);
     
-    res.json(newTodo);
+    await todo.save();
+
+    res.json(todo);
 
   } catch ( error ) {
     return res.status(500).json({ message: error.message });
   }
-} */
+}
 
 
 module.exports = {
   getTodos,
   createTodo,
-  deleteTodo
+  deleteTodo,
+  updateTodo
 }
