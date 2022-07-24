@@ -9,8 +9,7 @@ require('./services/passport');
 
 //routes
 const { authRoutes } = require('./routes/authRoutes');
-const { todoRoutes } = require('./routes/todoRoutes');
-const keys = require('./config/keys');
+const { todoRoutes } = require('./routes/todoRoutes')
 
 //app
 const app = express();
@@ -20,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(session({
-   secret: keys.cookieKey,
+   secret: 'somethingsecretgoeshere',
    resave: false,
    saveUninitialized: true,
    cookie: { maxAge:  ( 30 * 24 * 60 * 60 * 1000 ) }
